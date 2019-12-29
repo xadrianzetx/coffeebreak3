@@ -1,3 +1,4 @@
+import redis
 import requests
 from datetime import datetime
 
@@ -9,6 +10,7 @@ def check_scheduler():
     exec_time = datetime.now()
     msg = 'ran at {}'.format(exec_time)
     return msg
+
 
 def check_network():
     """
@@ -23,3 +25,30 @@ def check_network():
     
     else:
         return 'no connection'
+
+
+def redis_ping_test():
+    """
+    Test database connection
+    """
+    r = redis.StrictRedis(host='redis')
+
+    return r.ping()
+
+
+def redis_set_test():
+    """
+    Test writing to db
+    """
+    r = redis.StrictRedis(host='redis')
+    
+    return r.set('foo', 'bar')
+
+
+def redis_get_test():
+    """
+    Test reading db
+    """
+    r = redis.StrictRedis('redis')
+
+    return r.get('foo')
