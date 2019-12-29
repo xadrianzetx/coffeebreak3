@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+    redis:
+        image: arm32v7/redis:5.0.7
+        ports:
+            - 6379:6379
+    airflow:
+        image: coffeebreak3:dev
+        ports:
+            - 8080:8080
+        volumes:
+            - ./dags:/usr/local/airflow/dags
