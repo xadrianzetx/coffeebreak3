@@ -5,7 +5,7 @@ Setting up Airflow pipeline to send pictures of doggos
 ## Run
 
 ```
-sudo docker build . --tag coffeebreak3:v1 && sudo docker run -d -p 8080:8080 -v $(pwd)/dags:/usr/local/airflow/dags --network host
+sudo docker-compose up --build -d
 ```
 
 ## Base image
