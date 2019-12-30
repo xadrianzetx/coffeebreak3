@@ -5,7 +5,9 @@ services:
         ports:
             - 6379:6379
     airflow:
-        image: coffeebreak3:dev
+        build:
+            context: .
+            dockerfile: Dockerfile
         ports:
             - 8080:8080
         volumes:

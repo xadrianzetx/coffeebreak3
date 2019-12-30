@@ -3,7 +3,7 @@
 # ORIGINAL SOURCE: https://github.com/puckel/docker-airflow
 # ARM32V7 CONVERSION: xadrianzetx
 
-FROM arm32v7/python:3.7-slim-stretch
+FROM arm32v7/python:3.6.10-slim-stretch
 
 # Never prompts the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -56,6 +56,8 @@ RUN set -ex \
     && pip install pyasn1 \
     && pip install apache-airflow[celery,postgres,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && pip install 'redis==3.2' \
+    && pip install praw \
+    && pip install fbchat \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
     && apt-get purge --auto-remove -yqq $buildDeps \
     && apt-get autoremove -yqq --purge \
@@ -79,4 +81,4 @@ EXPOSE 8080 5555 8793
 USER airflow
 WORKDIR ${AIRFLOW_USER_HOME}
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["webserver"] # set default arg for entrypoint
+CMD ["webserver"]
