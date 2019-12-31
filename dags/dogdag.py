@@ -7,30 +7,31 @@ from modules import modules
 setup = {
     'owner': 'xadrianzetx',
     'depends_on_past': False,
-    'start_date': datetime.now() - timedelta(minutes=2),
+    'start_date': datetime.now() - timedelta(minutes=12),
     'retries': 2,
     'retry_delay': timedelta(minutes=5)
 }
 
+# TODO add description and update schedule_interval
 dag = DAG(
-    'pipeline_test',
+    'daily_doggos',
     default_args=setup,
-    schedule_interval=timedelta(minutes=1)
+    schedule_interval=timedelta(minutes=10)
 )
 
+
 t1 = PythonOperator(
-    task_id='scheduler',
-    provide_context=False,
-    python_callable=modules.check_scheduler,
+    task_id='get_reddit_hot',
+    provide_context=True,
+    python_callable=modules.get_subreddit_top,
     dag=dag
 )
 
 t2 = PythonOperator(
-    task_id='network',
-    provide_context=False,
-    python_callable=modules.check_network,
+    task_id='send_messages',
+    provide_context=True,
+    python_callable=modules.push_message,
     dag=dag
 )
 
-# set order of execution
 t2.set_upstream(t1)
