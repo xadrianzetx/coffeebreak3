@@ -7,16 +7,16 @@ from modules import modules
 setup = {
     'owner': 'xadrianzetx',
     'depends_on_past': False,
-    'start_date': datetime.now() - timedelta(minutes=12),
+    'start_date': datetime(2019, 12, 30),
     'retries': 2,
     'retry_delay': timedelta(minutes=5)
 }
 
-# TODO add description and update schedule_interval
 dag = DAG(
     'daily_doggos',
+    description="Daily reddit doggos. use r.get('%d.%m.%Y') to get metadata",
     default_args=setup,
-    schedule_interval=timedelta(minutes=10)
+    schedule_interval='00 12 * * *'
 )
 
 
